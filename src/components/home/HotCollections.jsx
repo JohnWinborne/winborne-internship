@@ -49,41 +49,38 @@ function SamplePrevArrow(props) {
 }
 
 const HotCollections = () => {
-  var settings = {
+  const getSlidesToShow = () => {
+    if (window.innerWidth < 600) return 1;
+    if (window.innerWidth < 800) return 2;
+    if (window.innerWidth < 1200) return 3;
+    return 4;
+  };
+
+  const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSlidesToShow(getSlidesToShow());
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
   };
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sliderKey, setSliderKey] = useState(0);
   async function fetchHotCollections() {
     try {
       const { data } = await axios.get(
@@ -91,6 +88,10 @@ const HotCollections = () => {
       );
 
       setCollections(data);
+
+      setTimeout(() => {
+        setSliderKey((prev) => prev + 1);
+      }, 100);
     } catch (error) {
       console.log(error);
     } finally {
@@ -149,7 +150,7 @@ const HotCollections = () => {
                 ))}{" "}
               </div>
             ) : (
-              <Slider {...settings}>
+              <Slider key={slidesToShow} {...settings}>
                 {collections.map((collection, index) => (
                   <div key={index}>
                     <div className="nft_coll">
@@ -163,7 +164,10 @@ const HotCollections = () => {
                         </Link>
                       </div>
                       <div className="nft_coll_pp">
-                        <Link to="/author">
+                        <Link
+                          to={`/author/${collection.authorId}`}
+                          state={{ seller: collection }}
+                        >
                           <img
                             className="lazy pp-coll"
                             src={collection.authorImage}
@@ -176,7 +180,7 @@ const HotCollections = () => {
                         <Link to="/explore">
                           <h4>{collection.title}</h4>
                         </Link>
-                        <span>{collection.code}</span>
+                        <span>ERC-{collection.code}</span>
                       </div>
                     </div>
                   </div>

@@ -51,6 +51,14 @@ function SamplePrevArrow(props) {
 }
 
 const NewItems = () => {
+  const getSlidesToShow = () => {
+    if (window.innerWidth < 600) return 1;
+    if (window.innerWidth < 800) return 2;
+    if (window.innerWidth < 1200) return 3;
+    return 4;
+  };
+
+  const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow());
   const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -58,35 +66,23 @@ const NewItems = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSlidesToShow(getSlidesToShow());
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   async function getNewItems() {
     try {
@@ -161,7 +157,7 @@ const NewItems = () => {
                 ))}
               </div>
             ) : (
-              <Slider {...settings}>
+              <Slider key={`${slidesToShow}-${newItems.length}`} {...settings}>
                 {newItems.map((item) => {
                   const timeLeft = formatTime(item.expiryDate);
                   return (
@@ -169,7 +165,8 @@ const NewItems = () => {
                       <div className="nft__item">
                         <div className="author_list_pp">
                           <Link
-                            to="/author"
+                            to={`/author/${item.authorId}`}
+                            state={{ seller: item }}
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
                             title={`Creator: ${item.authorId}`}
