@@ -44,8 +44,9 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>{item.title} #{item.tag}</h2>
-{/* COME BACK AND SEE IF ITEM.TAG NEEDS TO BE GREEN */}
+                  <h2>
+                    {item.title} #{item.tag}
+                  </h2>
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
@@ -67,7 +68,11 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to="/author">
-                            <img className="lazy" src={item.ownerImage} alt="" />
+                            <img
+                              className="lazy"
+                              src={item.ownerImage}
+                              alt=""
+                            />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
@@ -84,7 +89,11 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to="/author">
-                            <img className="lazy" src={item.creatorImage} alt="" />
+                            <img
+                              className="lazy"
+                              src={item.creatorImage}
+                              alt=""
+                            />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>

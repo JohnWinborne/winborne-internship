@@ -1,10 +1,14 @@
 import React from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 
 const Author = () => {
+  const { authorId } = useParams();
+  const location = useLocation();
+  const seller = location.state?.seller;
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -25,15 +29,20 @@ const Author = () => {
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">
-                      <img src={AuthorImage} alt="" />
+                      <img
+                        src={seller?.authorImage || AuthorImage}
+                        alt={seller?.authorName || "Author"}
+                      />
 
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
-                          Monica Lucas
-                          <span className="profile_username">@monicaaaa</span>
+                          {seller?.authorName || "Author"}
+                          <span className="profile_username">
+                            @{seller?.authorName || authorId}
+                          </span>
                           <span id="wallet" className="profile_wallet">
-                            UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
+                            {seller?.authorId || authorId}
                           </span>
                           <button id="btn_copy" title="Copy Text">
                             Copy
