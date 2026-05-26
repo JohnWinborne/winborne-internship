@@ -26,6 +26,7 @@ const ItemDetails = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchItemDetails();
+    // eslint-disable-next-line
   }, [id]);
 
   if (loading) {

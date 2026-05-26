@@ -29,6 +29,7 @@ const Author = () => {
 
   useEffect(() => {
     getAuthor();
+    // eslint-disable-next-line
   }, [authorId]);
 
   if (loading) {
