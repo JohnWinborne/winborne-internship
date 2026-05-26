@@ -80,7 +80,6 @@ const HotCollections = () => {
   };
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sliderKey, setSliderKey] = useState(0);
   async function fetchHotCollections() {
     try {
       const { data } = await axios.get(
@@ -89,9 +88,6 @@ const HotCollections = () => {
 
       setCollections(data);
 
-      setTimeout(() => {
-        setSliderKey((prev) => prev + 1);
-      }, 100);
     } catch (error) {
       console.log(error);
     } finally {

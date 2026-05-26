@@ -21,6 +21,7 @@ const TopSellers = () => {
 
   useEffect(() => {
     getTopSellers();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -37,7 +38,7 @@ const TopSellers = () => {
             <ol className="author_list" data-aos="fade-in">
               {loading
                 ? new Array(12).fill(0).map((_, index) => (
-                    <li key={index} >
+                    <li key={index}>
                       <div className="author_list_pp">
                         <div className="placeholder-glow" role="status">
                           <span className="placeholder rounded-circle d-inline-block p-4"></span>
