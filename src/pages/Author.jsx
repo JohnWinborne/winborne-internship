@@ -170,7 +170,7 @@ const Author = () => {
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
                       <div className="profile_follower">
-                        {author?.followers} followers
+                        {author?.followers + (isFollowing ? 1 : 0)} followers
                       </div>
                       <button
                         className="btn-main"
