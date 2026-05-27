@@ -125,6 +125,8 @@ const Author = () => {
     );
   }
 
+  const followerCount = Number(author?.followers) || 0;
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -170,7 +172,7 @@ const Author = () => {
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
                       <div className="profile_follower">
-                        {author?.followers + (isFollowing ? 1 : 0)} followers
+                        {followerCount + (isFollowing ? 1 : 0)} followers
                       </div>
                       <button
                         className="btn-main"
